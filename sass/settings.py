@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'sass'
+    'crm'
 ]
 
 MIDDLEWARE = [
@@ -129,7 +128,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+if DEBUG:
+    STATICFILES_DIRS = ( os.path.join('static'), )
+else:
+    STATIC_ROOT = 'static'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+AUTH_USER_MODEL = 'crm.UserProfile'

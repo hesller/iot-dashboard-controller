@@ -43,9 +43,15 @@
                                                                                            data-feather="credit-card"></i>
                         Pricing</a><a class="dropdown-item" href="javascript:void(0);"><i class="mr-50"
                                                                                           data-feather="help-circle"></i>
-                        FAQ</a><a class="dropdown-item" href="javascript:void(0);"><i class="mr-50"
-                                                                                      data-feather="power"></i>
+                        FAQ</a>
+                    <form id="logout-form" method="get" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <a class="dropdown-item" onclick="
+                            document.querySelector('#logout-form').submit();">
+                            <i class="mr-50" data-feather="power"></i>
                         Logout</a>
+                    </form>
+
                 </div>
             </li>
         </ul>

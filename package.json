@@ -22,8 +22,11 @@
     "rtlcss": "^2.4.0",
     "sass": "^1.22.12",
     "sass-loader": "^7.3.1",
-    "vue": "^2.5.17",
+    "vue": "^2.6.12",
     "vue-template-compiler": "^2.6.10",
     "webpack-cli": "^3.3.5"
+  },
+  "dependencies": {
+    "vue-cli": "^2.9.6"
   }
 }
