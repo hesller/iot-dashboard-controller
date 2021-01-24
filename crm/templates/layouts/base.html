@@ -34,6 +34,9 @@
     <link rel="stylesheet" type="text/css" href="{% static '/assets/css/style.css' %}">
     <!-- END: Custom CSS-->
 
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
 </head>
 <!-- END: Head-->
 
@@ -75,6 +78,8 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
+    {% block page_scripts %}
+    {% endblock page_scripts %}
     <!-- END: Page JS-->
 
     <script>

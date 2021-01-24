@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
@@ -7,6 +8,7 @@ from crm.forms import UserAuthenticationForm
 # Create your views here.
 
 
+@login_required
 def dashboard(request):
     return render(request, 'pages/dashboard.html', context={})
 
@@ -77,6 +79,7 @@ class RegisterView(View):
 
 class EnvironmentListView(View):
     html_template = 'pages/environments.html'
+
     def get(self, request):
         return render(request, self.html_template, context={'page_title': 'Ambientes'})
 
