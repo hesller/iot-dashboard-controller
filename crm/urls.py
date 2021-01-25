@@ -4,7 +4,8 @@ from django.urls import path
 from crm import views
 
 urlpatterns = [
-    path('', views.dashboard, name='dashboard'),
+    path('', views.LoginView.as_view(), name='login'),
+    path('painel/', views.dashboard, name='dashboard'),
     path("login/", views.LoginView.as_view(), name='login'),
     path("logout/", views.LogoutView.as_view(), name='logout'),
     path("cadastrar/", login_required(views.RegisterView.as_view()), name='register'),

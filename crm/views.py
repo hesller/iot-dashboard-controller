@@ -23,26 +23,25 @@ class LoginView(View):
     def get(self, request):
         return render(request, self.html_template, context={'page_title': 'Painel'})
 
-
     def post(self, request, *args, **kwargs):
 
         form = UserAuthenticationForm(request=request,data=request.POST)
 
         if form.is_valid():
-            print('------- form is valid')
             try:
                 user = form.user_cache
                 login(request, user)
                 return redirect('dashboard')
             except:
-                print('------- could not auth')
                 return render(request, self.html_template, context={'old_email': request.POST['email'], 'form': form})
-        print('----------------------form is invalid')
-        print(form.errors)
+
         return render(request, self.html_template, context={'old_email': request.POST['email'], 'form': form})
 
 
 class LogoutView(View):
+    """
+        This class removes the user from sessions
+    """
     def get(self, request):
         logout(request)
         return redirect('login')
@@ -50,7 +49,7 @@ class LogoutView(View):
 
 class RegisterView(View):
     """
-            This class defines the register methods allowed
+        This class defines the register methods
     """
     template_name = 'pages/auth/register.html'
 
@@ -78,6 +77,9 @@ class RegisterView(View):
 
 
 class EnvironmentListView(View):
+    """
+        List all environments on database
+    """
     html_template = 'pages/environments.html'
 
     def get(self, request):
@@ -85,10 +87,13 @@ class EnvironmentListView(View):
 
 
 class EnvironmentCreateView(View):
-
+    """
+        Create a new environment
+    """
     html_template = 'pages/environments_create.html'
 
     def get(self, request):
         return render(request, self.html_template, context={'page_title': 'Ambientes'})
 
     # def post(self, request, *args, **kwargs):
+
