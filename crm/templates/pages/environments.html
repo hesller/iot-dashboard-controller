@@ -1,4 +1,8 @@
 {% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block head_scripts %}
+{% endblock head_scripts %}
 
 {% block content %}
     <div class="app-content content ">
@@ -44,6 +48,7 @@
                     </div>
                     <div class="card-body" id="card-body">
                         <h1>[[ message ]]</h1>
+
                     </div>
                 </div>
                 <!--/ Kick start -->
@@ -58,13 +63,24 @@
 {% endblock %}
 
 {% block page_scripts %}
-    <script>
+
+    <script type="module">
+        import EnvironmentDataService from "{% static 'assets/js/environments_service.js' %}";
+
         new Vue({
             el: '#card-body',
             delimiters: ['[[', ']]'],
             data () {
                 return {
                     message: 'This is a environment'
+                }
+            },
+            mounted() {
+               this.getEnvironments();
+            },
+            methods: {
+                getEnvironments() {
+                    EnvironmentDataService.getAll().then(response => console.log('response'));
                 }
             }
         })

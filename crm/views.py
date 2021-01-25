@@ -2,12 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout
+
 from crm.forms import UserAuthenticationForm
+
+
 # Create your views here.
-
-
 @login_required
 def dashboard(request):
     return render(request, 'pages/dashboard.html', context={})
@@ -21,6 +22,8 @@ class LoginView(View):
     html_template = 'pages/auth/login.html'
 
     def get(self, request):
+        if request.user.is_authenticated:
+            return redirect('dashboard')
         return render(request, self.html_template, context={'page_title': 'Painel'})
 
     def post(self, request, *args, **kwargs):
@@ -54,7 +57,8 @@ class RegisterView(View):
     template_name = 'pages/auth/register.html'
 
     def get(self, request):
-
+        if request.user.is_authenticated:
+            return redirect('dashboard')
         return render(request, self.template_name, context={'page_title': 'Cadastrar'})
 
     def post(self, request, *args, **kwargs):

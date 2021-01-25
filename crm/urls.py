@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.urls import path
 from crm import views
+from crm import decorators as dc
 
 urlpatterns = [
     path('', views.LoginView.as_view(), name='login'),
