@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
-
+{% load static %}
 {% block content %}
-    <div class="app-content content ">
+    <div class="app-content content" id="environment-edit">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
@@ -11,12 +11,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">Ambientes</h2>
+                            <h2 class="content-header-title float-left mb-0">Deletar Ambiente</h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{% url 'list-environments' %}">Ambientes</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Criar novo Ambiente
+                                    <li class="breadcrumb-item active">Deletar - {{ object.name }}
                                     </li>
                                 </ol>
                             </div>
@@ -38,7 +38,23 @@
 
             <div class="content-body">
                 <!-- Kick start -->
-                {% include 'components/forms/multi_column_form.html' %}
+                <form class="form" method="post" action="{% url 'delete-environment' pk=object.id%}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col col-6">
+                                <div class="form-group">
+                                    <h5 class="form-text">Esta ação não poderá ser desfeita. Tem certeza que deseja deletar este ambiente? </h5>
+                                    <span class="form-text text-danger h5 p-25">{{ object.name }}, {{ object.local }} </span>
+
+                                    <button type="submit" value="Confirm"
+                                            class="btn btn-danger mr-1 waves-effect waves-float waves-light">
+                                        Deletar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
                 <!--/ Kick start -->
 
                 <!-- Page layout -->
@@ -51,20 +67,7 @@
 {% endblock %}
 
 {% block page_scripts %}
-    <script type="text/javascript">
-        new Vue({
-            el: '#multiple-column-form',
-            delimiters: ['[[',']]'],
-            data() {
-                return {
-                    title: 'Novo Ambiente',
-                    createForm: [
-                        {label: 'Nome', name: 'name', type: 'text', placeholder: 'Auditorio Principal...'},
-                        {label: 'Local', name: 'local', type: 'text', placeholder: 'Corredor 1, Sala 02....'},
-                        {label: 'Temperatura Desejada', name: 't_t', type: 'number', placeholder: '26'}
-                    ],
-                }
-            }
-        })
+    <script type="module">
+
     </script>
 {% endblock page_scripts %}

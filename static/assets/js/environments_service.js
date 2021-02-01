@@ -1,33 +1,30 @@
-import http from "/static/assets/js/http_common.js";
 
 class EnvironmentDataService {
   getAll() {
-    return http.get("environments/");
+    return axios_api.get("environments/");
   }
 
   get(id) {
-    return http.get(`/tutorials/${id}`);
+    return axios_crm.get(`/ambientes/editar/${id}`);
   }
 
-  create(data) {
-    return http.post("/tutorials", data);
-  }
-
-  update(id, data) {
-    return http.put(`/tutorials/${id}`, data);
-  }
-
-  delete(id) {
-    return http.delete(`/tutorials/${id}`);
-  }
-
-  deleteAll() {
-    return http.delete(`/tutorials`);
-  }
-
-  findByTitle(title) {
-    return http.get(`/tutorials?title=${title}`);
-  }
+  // create(data) {
+  //   return axios_http.post("/tutorials", data);
+  // }
+  //
+  // update(id, data) {
+  //   return axios_http.put(`/tutorials/${id}`, data);
+  // }
+  //
+  // delete(id) {
+  //   return axios_http.delete(`/tutorials/${id}`);
+  // }
+  //
+  // deleteAll() {
+  //   return axios_http.delete(`/tutorials`);
+  // }
+  //
+  // findByTitle(title) {
+  //   return axios_http.get(`/tutorials?title=${title}`);
+  // }
 }
-
-export default new EnvironmentDataService();

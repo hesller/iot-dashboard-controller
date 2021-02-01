@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
-
+{% load static %}
 {% block content %}
-    <div class="app-content content ">
+    <div class="app-content content" id="environment-edit">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
@@ -16,7 +16,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{% url 'list-environments' %}">Ambientes</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Criar novo Ambiente
+                                    <li class="breadcrumb-item active">Editar - {{ object.name }}
                                     </li>
                                 </ol>
                             </div>
@@ -38,11 +38,11 @@
 
             <div class="content-body">
                 <!-- Kick start -->
-                {% include 'components/forms/multi_column_form.html' %}
+                {% include 'components/forms/environment_edit_form.html' %}
                 <!--/ Kick start -->
 
                 <!-- Page layout -->
-
+                {% include 'components/table/table_equipament.html'%}
                 <!--/ Page layout -->
 
             </div>
@@ -50,20 +50,31 @@
     </div>
 {% endblock %}
 
+{% block page_vendor_js %}
+    <script src="{% static 'app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js' %}"></script>
+{% endblock page_vendor_js %}
+
 {% block page_scripts %}
-    <script type="text/javascript">
+    <script src="{% static 'app-assets/js/scripts/forms/form-number-input.js' %}"></script>
+    <script type="module">
         new Vue({
-            el: '#multiple-column-form',
-            delimiters: ['[[',']]'],
+            el: '#environment-edit',
+            delimiters: ['[[', ']]'],
             data() {
                 return {
-                    title: 'Novo Ambiente',
-                    createForm: [
-                        {label: 'Nome', name: 'name', type: 'text', placeholder: 'Auditorio Principal...'},
-                        {label: 'Local', name: 'local', type: 'text', placeholder: 'Corredor 1, Sala 02....'},
-                        {label: 'Temperatura Desejada', name: 't_t', type: 'number', placeholder: '26'}
-                    ],
+                    title: 'Editar - {{ object.name }}',
+                    envs: [],
+                    table_headers: [
+                        'Equipamento',
+                        'Marca',
+                        'Modelo',
+                        'Potencia',
+                        'Ligado/Desligado',
+                        'Ações'
+                    ]
                 }
+            },
+            mounted() {
             }
         })
     </script>

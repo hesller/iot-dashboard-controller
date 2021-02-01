@@ -1,11 +1,7 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-
-{% block head_scripts %}
-{% endblock head_scripts %}
-
 {% block content %}
-    <div class="app-content content ">
+    <div class="app-content content" id="environment-edit">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
@@ -15,12 +11,16 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">Ambientes</h2>
+                            <h2 class="content-header-title float-left mb-0">Deletar Lâmpada </h2>
                             <div class="breadcrumb-wrapper">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{% url 'list-environments' %}">Ambientes</a>
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'edit-environment' pk=object.environment.id %}">
+                                            {{ object.environment.name }}
+                                        </a>
                                     </li>
-                                    <li class="breadcrumb-item active">Lista de Ambientes
+                                    <li class="breadcrumb-item active">{{ object.brand }} {{ object.model }}
                                     </li>
                                 </ol>
                             </div>
@@ -85,54 +85,37 @@
 
             <div class="content-body">
                 <!-- Kick start -->
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                {% include 'components/table/table_bootstrap.html' %}
+                <form class="form" method="post" action="{% url 'delete-lamp-environment' env=object.environment.id pk=object.id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col col-6">
+                            <div class="form-group">
+                                <h5 class="form-text">Esta ação não poderá ser desfeita. Tem certeza que deseja deletar
+                                    este ambiente? </h5>
+                                <span class="form-text text-danger h5 p-25">{{ object.brand }}, {{ object.model }} </span>
+
+                                <button type="submit" value="Confirm"
+                                        class="btn btn-danger mr-1 waves-effect waves-float waves-light">
+                                    Deletar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
                 <!--/ Kick start -->
+
+                <!-- Page layout -->
+
+                <!--/ Page layout -->
+
             </div>
         </div>
     </div>
 {% endblock %}
 
 {% block page_scripts %}
-
-    <script src="{% static 'assets/js/environments_service.js' %}"></script>
-    <script src="{% static 'assets/js/air_conditioning_service.js' %}"></script>
     <script type="module">
 
-        new Vue({
-            el: '#environments-list-table',
-            delimiters: ['[[', ']]'],
-            data() {
-                return {
-                    envs: [],
-                    nociveGasThreshold: 400
-                }
-            },
-            mounted() {
-                this.getEnvironments();
-            },
-            methods: {
-                getEnvironments() {
-                    new EnvironmentDataService().getAll().then((response) => {
-                        return response.data;
-                    }).then((data) => {
-                        this.envs = data;
-                    });
-                },
-                editEnvironment(envID){
-                    window.location.href = 'editar/' + envID;
-                },
-                deleteEnvironment(envID){
-                    window.location.href = 'deletar/' + envID;
-                }
-            }
-        })
     </script>
 {% endblock page_scripts %}
-

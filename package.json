@@ -1,0 +1,22 @@
+{
+  "name": "sass",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hesllerhuller/django-sass.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hesllerhuller/django-sass/issues"
+  },
+  "homepage": "https://github.com/hesllerhuller/django-sass#readme",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}

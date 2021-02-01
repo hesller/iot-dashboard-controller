@@ -1,0 +1,137 @@
+{% load static %}
+<!-- Contextual classes start -->
+<div class="row" id="table-contextual">
+    <div class="col-12">
+        <div class="card" id="environments-list-table">
+            <div class="card-header flex-row">
+                <h4 class="card-title">Equipamento</h4>
+                <div class="align-self-end dropdown mr-50">
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                        Adicionar
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" data-toggle="modal"
+                           data-target="#create-ac">
+                            <i class="mr-50" data-feather="wind"></i>
+                            <span>Ar-condicionado</span>
+                        </a>
+                        <a class="dropdown-item" data-toggle="modal"
+                            data-target="#create-lamp">
+                            <i class="mr-50" data-feather="sun"></i>
+                            <span>Lâmpada</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    Lista de parelhos que se encontram neste ambiente.
+                </p>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr class="justify-content-center">
+                        <th class="text-center" v-for="item in table_headers">[[item]]</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ac in acs %}
+                        <tr class="table-default ">
+                            <td>
+                                <span class="font-weight-bold">Ar-condicionado</span>
+                            </td>
+                            <td class="text-center">{{ ac.brand }}</td>
+                            <td class="text-center">{{ ac.model }}</td>
+                            <td class="text-center">{{ ac.power }} watts</td>
+                            <td class="text-center">
+                                <span class="badge badge-pill mr-1"
+                                        {% if ac.on_off %} v-bind:class="['badge-light-success']"
+                                        {% else %} v-bind:class="['badge-light-secondary']"
+                                        {% endif %}>
+                                    {% if ac.on_off %}
+                                        Ligado
+                                    {% else %}
+                                        Desligado
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
+                                            data-toggle="dropdown">
+                                        <i data-feather="more-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                           href="{% url 'update-ac-environment' env=object.id pk=ac.id %}">
+                                            <i data-feather="edit-2" class="mr-50"></i>
+                                            <span>Editar</span>
+                                        </a>
+                                        <a class="dropdown-item"
+                                           href="{% url 'delete-ac-environment' env=object.id pk=ac.id %}">
+                                            <i data-feather="trash" class="mr-50"></i>
+                                            <span>Deletar</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% for lamp in lamps %}
+                        <tr class="table-default">
+                            <td>
+                                <span class="font-weight-bold">Lampada</span>
+                            </td>
+                            <td class="text-center">{{ lamp.brand }}</td>
+                            <td class="text-center">{{ lamp.model }}</td>
+                            <td class="text-center">{{ lamp.power }} watts</td>
+                            <td class="text-center">
+                                    <span class="badge badge-pill mr-1"
+                                            {% if lamp.on_off %} v-bind:class="['badge-light-primary']"
+                                            {% else %} v-bind:class="['badge-light-secondary']"
+                                            {% endif %}>
+                                        {% if lamp.on_off %}
+                                            Ligado
+                                        {% else %}
+                                            Desligado
+                                        {% endif %}
+                                    </span>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow"
+                                            data-toggle="dropdown">
+                                        <i data-feather="more-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item"
+                                           href="{% url 'update-lamp-environment' env=object.id pk=lamp.id %}">
+                                            <i data-feather="edit-2" class="mr-50"></i>
+                                            <span>Editar</span>
+                                        </a>
+                                        <a class="dropdown-item"
+                                           href="{% url 'delete-lamp-environment' env=object.id pk=lamp.id %}"
+                                        >
+                                            <i data-feather="trash" class="mr-50"></i>
+                                            <span>Deletar</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contextual classes end -->
+<!-- Vertical Create ac modal -->
+{% include 'components/modal/create_ac_modal.html' %}
+<!-- Vertical modal end-->
+
+<!-- Vertical Create Lamp Modal -->
+{% include 'components/modal/create_lamp_modal.html' %}
+<!-- Vertical modal end-->

@@ -54,10 +54,10 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 class Environment(models.Model):
     name = models.CharField(max_length=255)
     local = models.CharField(max_length=255)
-    t_a = models.FloatField(blank=True)
-    t_t = models.FloatField(blank=True)
-    umd = models.FloatField(blank=True)
-    n_g = models.FloatField(blank=True)
+    t_a = models.FloatField(blank=True, null=True)
+    t_t = models.FloatField(blank=True, null=True)
+    umd = models.FloatField(blank=True, null=True)
+    n_g = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.id} | {self.name} | {self.local} | {self.t_a if self.t_a else 0.0} | {self.t_t if self.t_t else 0.0}" \
@@ -72,13 +72,15 @@ class AirConditioning(models.Model):
     on_off = models.BooleanField(default=0)
 
     def __str__(self):
-        return f"{self.id} | Ar-condicionado {self.brand}, {self.model} | Status: {'ligado' if self.on_off else 'desligado'}"
+        return f"{self.id} | Ar-condicionado {self.brand}, {self.model} | {self.environment.name} | Status: {'ligado' if self.on_off else 'desligado'}"
 
 
 class Lamp(models.Model):
     environment = models.ForeignKey(Environment,  on_delete=models.CASCADE)
     power = models.FloatField(default=0)
+    brand = models.CharField(max_length=255, blank=True, null=True)
+    model = models.CharField(max_length=255, blank=True, null=True)
     on_off = models.BooleanField(default=0)
 
     def __str__(self):
-        return f"{self.id} | Lampada {self.power} watts | Status: {'ligado' if self.on_off else 'desligado'}"
+        return f"{self.id} | Lampada {self.power} watts | {self.environment.name} | Status: {'ligado' if self.on_off else 'desligado'}"

@@ -1,0 +1,32 @@
+{% load static %}
+<section id="multiple-column-form">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">[[ title ]]</h4>
+                </div>
+                <div class="card-body">
+                    <form class="form" method="post" action="{% url 'create-new-environment' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group" v-for="form in createForm" >
+                                    <label :for="form.name">[[ form.label ]]</label>
+                                    <input :type="form.type" :id="form.name" class="form-control"
+                                           :placeholder="form.placeholder" :name="form.name">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary mr-1 waves-effect waves-float waves-light">
+                                    Salvar
+                                </button>
+                                <button type="reset" class="btn btn-outline-secondary waves-effect">Resetar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

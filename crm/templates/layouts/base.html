@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html class="loading" data-textdirection="ltr">
 <!-- BEGIN: Head-->
 
 <head>
@@ -18,6 +18,9 @@
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{% static '/app-assets/vendors/css/vendors.min.css' %}">
+    {% block header_vendor_css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'app-assets/vendors/css/forms/spinner/jquery.bootstrap-touchspin.css' %}">
+    {% endblock header_vendor_css %}
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -37,6 +40,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="{% static 'assets/js/http_common.js' %}"></script>
     {% block head_scripts %}
     {% endblock head_scripts %}
 
@@ -73,6 +77,8 @@
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
+    {% block page_vendor_js %}
+    {% endblock page_vendor_js %}
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->

@@ -1,175 +1,68 @@
+{% load static %}
 <!-- Contextual classes start -->
 <div class="row" id="table-contextual">
     <div class="col-12">
-        <div class="card">
+        <div class="card" id="environments-list-table">
             <div class="card-header">
-                <h4 class="card-title">Contextual classes</h4>
+                <h4 class="card-title">Lista de ambientes</h4>
             </div>
             <div class="card-body">
                 <p class="card-text">
-                    Use contextual classes to color table rows or individual cells. Read full documnetation
-                    <a href="https://getbootstrap.com/docs/4.3/content/tables/IDcontextual-classes" target="_blank">here.</a>
+                    Aqui encontram-se uma lista de todos os ambientes cadastrados.
                 </p>
             </div>
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Ambiente</th>
-                            <th>Users</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                        <tr class="justify-content-center">
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Ambiente</th>
+                            <th class="text-center">Local</th>
+                            <th class="text-center">Temp. Atual</th>
+                            <th class="text-center">Temp. Aceitável</th>
+                            <th class="text-center">Umidade</th>
+                            <th class="text-center">Nv. Gases Nocivos</th>
+                            <th class="text-center">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-default">
+                        <tr class="table-default" v-for="item in envs" :key="item.id">
                             <td>
-                                <img src="{% static 'app-assets/images/icons/figma.svg' %}" class="mr-75" height="20" width="20" alt="Figma" />
-                                <span class="font-weight-bold">Figma Project</span>
+                                <span class="font-weight-bold">[[item.id]]</span>
                             </td>
-                            <td>Ronnie Shane</td>
+                            <td>[[item.name]]</td>
                             <td>
-                                <div class="avatar-group">
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Lilian Nenez">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-5.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Alberto Glotzbach">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-6.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Alberto Glotzbach">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-7.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                </div>
+                                [[item.local]]
                             </td>
-                            <td><span class="badge badge-pill badge-light-primary mr-1">Active</span></td>
+                            <td><span class="text-center badge badge-pill mr-1" v-bind:class="{
+                                'badge-light-success': item.t_a <= item.t_t,
+                                'badge-light-warning': item.t_a > item.t_t
+                                }">[[item.t_a]] °C</span></td>
+                            <td><span class="text-center badge badge-pill mr-1" v-bind:class="{
+                                'badge-light-success': item.t_a <= item.t_t,
+                                'badge-light-warning': item.t_a > item.t_t
+                                }">[[item.t_t]] °C</span></td>
+                            <td><span class="text-center badge badge-pill mr-1" v-bind:class="{
+                                'badge-light-success':  50 < item.umd < 80,
+                                'badge-light-danger': item.umd <= 50 || item.umd >= 80
+                                }">[[item.umd]] %</span></td>
+                            <td><span class="text-center badge badge-pill mr-1" v-bind:class="{
+                                'badge-light-success':  0 < item.n_g <= nociveGasThreshold,
+                                'badge-light-danger': item.n_g > nociveGasThreshold
+                                }">[[item.n_g]] ppm</span></td>
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
                                         <i data-feather="more-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);">
+                                        <a class="dropdown-item" v-on:click="editEnvironment(item.id)">
                                             <i data-feather="edit-2" class="mr-50"></i>
-                                            <span>Edit</span>
+                                            <span>Editar</span>
                                         </a>
-                                        <a class="dropdown-item" href="javascript:void(0);">
+                                        <a class="dropdown-item" v-on:click="deleteEnvironment(item.id)">
                                             <i data-feather="trash" class="mr-50"></i>
-                                            <span>Delete</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-active">
-                            <td>
-                                <img src="{% static 'app-assets/images/icons/react.svg' %}" class="mr-75" height="20" width="20" alt="React" />
-                                <span class="font-weight-bold">React Project</span>
-                            </td>
-                            <td>Ronald Frest</td>
-                            <td>
-                                <div class="avatar-group">
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Lilian Nenez">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-5.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Alberto Glotzbach">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-6.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Alberto Glotzbach">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-7.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="badge badge-pill badge-light-success mr-1">Completed</span></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
-                                        <i data-feather="more-vertical"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);">
-                                            <i data-feather="edit-2" class="mr-50"></i>
-                                            <span>Edit</span>
-                                        </a>
-                                        <a class="dropdown-item" href="javascript:void(0);">
-                                            <i data-feather="trash" class="mr-50"></i>
-                                            <span>Delete</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-primary">
-                            <td>
-                                <img src="{% static 'app-assets/images/icons/angular.svg' %}" class="mr-75" height="20" width="20" alt="Angular" />
-                                <span class="font-weight-bold">Angular Project</span>
-                            </td>
-                            <td>Peter Charls</td>
-                            <td>
-                                <div class="avatar-group">
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Lilian Nenez">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-5.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Alberto Glotzbach">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-6.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Alberto Glotzbach">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-7.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="badge badge-pill badge-light-primary mr-1">Active</span></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
-                                        <i data-feather="more-vertical"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);">
-                                            <i data-feather="edit-2" class="mr-50"></i>
-                                            <span>Edit</span>
-                                        </a>
-                                        <a class="dropdown-item" href="javascript:void(0);">
-                                            <i data-feather="trash" class="mr-50"></i>
-                                            <span>Delete</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="table-secondary">
-                            <td>
-                                <img src="{% static 'app-assets/images/icons/vuejs.svg" class="mr-75' %}" height="20" width="20" alt="Vuejs" />
-                                <span class="font-weight-bold">Vuejs Project</span>
-                            </td>
-                            <td>Jack Obes</td>
-                            <td>
-                                <div class="avatar-group">
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Lilian Nenez">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-5.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Alberto Glotzbach">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-6.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                    <div data-toggle="tooltip" data-popup="tooltip-custom" data-placement="top" title="" class="avatar pull-up my-0" data-original-title="Alberto Glotzbach">
-                                        <img src="{% static 'app-assets/images/portrait/small/avatar-s-7.jpg' %}" alt="Avatar" height="26" width="26" />
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="badge badge-pill badge-light-secondary mr-1">Scheduled</span></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
-                                        <i data-feather="more-vertical"></i>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);">
-                                            <i data-feather="edit-2" class="mr-50"></i>
-                                            <span>Edit</span>
-                                        </a>
-                                        <a class="dropdown-item" href="javascript:void(0);">
-                                            <i data-feather="trash" class="mr-50"></i>
-                                            <span>Delete</span>
+                                            <span>Deletar</span>
                                         </a>
                                     </div>
                                 </div>

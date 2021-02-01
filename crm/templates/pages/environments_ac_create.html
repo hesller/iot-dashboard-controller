@@ -1,11 +1,11 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-
-{% block head_scripts %}
-{% endblock head_scripts %}
+{% block header_vendor_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app-assets/vendors/css/forms/select/select2.min.css' %}">
+{% endblock header_vendor_css %}
 
 {% block content %}
-    <div class="app-content content ">
+    <div class="app-content content" id="environment-edit">
         <div class="content-overlay"></div>
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper">
@@ -20,7 +20,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="{% url 'list-environments' %}">Ambientes</a>
                                     </li>
-                                    <li class="breadcrumb-item active">Lista de Ambientes
+                                    <li class="breadcrumb-item active">Novo Ar-condicionado
                                     </li>
                                 </ol>
                             </div>
@@ -85,54 +85,85 @@
 
             <div class="content-body">
                 <!-- Kick start -->
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-                {% include 'components/table/table_bootstrap.html' %}
-                <!--/ Kick start -->
+                {% load static %}
+                <section id="multiple-column-form">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Ar Condicionado</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form class="form" method="post"
+                                          action="#">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group hidden">
+                                                    <label for="name">Environment</label>
+                                                    <input type="text" id="name" class="form-control"
+                                                           placeholder="{{ object.brand }}" name="environment"
+                                                           value="{{ env_id }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="name">Marca</label>
+                                                    <input type="text" id="name" class="form-control"
+                                                           placeholder="{{ object.brand }}" name="brand"
+                                                           value="{{ object.brand }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="local">Modelo</label>
+                                                    <input type="text" id="local" class="form-control"
+                                                           placeholder="{{ object.model }}" name="model"
+                                                           value="{{ object.model }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="t_t">Potência</label>
+                                                    <input type="number" id="t_t" class="form-control"
+                                                           placeholder="{{ object.power }}" name="power"
+                                                           value="{{ object.power }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                <label>Ligado/Desligado</label>
+                                                    <div class="custom-control custom-control-primary custom-switch">
+                                                        <input class="custom-control-input" id="systemNotification"
+                                                               name="on_off"
+                                                               type="checkbox" {% if object.on_off %}checked="" {% endif %}>
+                                                        <label class="custom-control-label"
+                                                               for="systemNotification"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <button type="submit" value="Update"
+                                                        class="btn btn-primary mr-1 waves-effect waves-float waves-light">
+                                                    Salvar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
             </div>
         </div>
     </div>
 {% endblock %}
 
+{% block page_vendor_js %}
+    <script src="{% static 'app-assets/vendors/js/forms/select/select2.full.min.js' %}"></script>
+{% endblock page_vendor_js %}
+
 {% block page_scripts %}
+    <script src="{% static 'app-assets/js/scripts/forms/form-select2.js' %}"></script>
 
-    <script src="{% static 'assets/js/environments_service.js' %}"></script>
-    <script src="{% static 'assets/js/air_conditioning_service.js' %}"></script>
-    <script type="module">
-
-        new Vue({
-            el: '#environments-list-table',
-            delimiters: ['[[', ']]'],
-            data() {
-                return {
-                    envs: [],
-                    nociveGasThreshold: 400
-                }
-            },
-            mounted() {
-                this.getEnvironments();
-            },
-            methods: {
-                getEnvironments() {
-                    new EnvironmentDataService().getAll().then((response) => {
-                        return response.data;
-                    }).then((data) => {
-                        this.envs = data;
-                    });
-                },
-                editEnvironment(envID){
-                    window.location.href = 'editar/' + envID;
-                },
-                deleteEnvironment(envID){
-                    window.location.href = 'deletar/' + envID;
-                }
-            }
-        })
-    </script>
 {% endblock page_scripts %}
-

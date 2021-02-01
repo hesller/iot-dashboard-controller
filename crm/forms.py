@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.utils.translation import gettext, gettext_lazy as _
 
+from crm import models
+
 
 class UserAuthenticationForm(forms.Form):
     """
@@ -86,3 +88,17 @@ class UserAuthenticationForm(forms.Form):
 
     def get_user(self):
         return self.user_cache
+
+
+class EnvironmentCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Environment
+        fields = ['name', 'local', 't_t']
+
+
+class AirConditioningCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.AirConditioning
+        exclude = ['environment']
+
