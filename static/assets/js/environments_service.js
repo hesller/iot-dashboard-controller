@@ -8,6 +8,10 @@ class EnvironmentDataService {
     return axios_crm.get(`/ambientes/editar/${id}`);
   }
 
+  getState() {
+    return axios_api.get(`/environments/state/`)
+  }
+
   // create(data) {
   //   return axios_http.post("/tutorials", data);
   // }

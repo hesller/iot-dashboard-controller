@@ -1,0 +1,14 @@
+{% load static %}
+<div class="row p-b-25" v-for="env in envs">
+    <div class="col-12">
+        <h4 class="title text-primary">[[env.name]]</h4>
+        <p class=" text-secondary p-b-20" >[[env.local]]</p>
+        <div class="row justify-content-around">
+            {% include 'components/chart/temp_umd.html' %}
+            {% include 'components/chart/donut_power_consumption.html' %}
+            {% include 'components/card/summary.html' %}
+        </div>
+    </div>
+    <hr class="p-t-20 text-primary" size="4px" width="100%">
+</div>
+

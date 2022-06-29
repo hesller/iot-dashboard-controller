@@ -43,12 +43,12 @@
                                 'badge-light-warning': item.t_a > item.t_t
                                 }">[[item.t_t]] °C</span></td>
                             <td><span class="text-center badge badge-pill mr-1" v-bind:class="{
-                                'badge-light-success':  50 < item.umd < 80,
+                                'badge-light-success':  {{ constants.umd_min }} < item.umd < {{ constants.umd_max }},
                                 'badge-light-danger': item.umd <= 50 || item.umd >= 80
                                 }">[[item.umd]] %</span></td>
                             <td><span class="text-center badge badge-pill mr-1" v-bind:class="{
-                                'badge-light-success':  0 < item.n_g <= nociveGasThreshold,
-                                'badge-light-danger': item.n_g > nociveGasThreshold
+                                'badge-light-success':  0 < item.n_g <= {{ constants.noc_gas_thr }},
+                                'badge-light-danger': item.n_g > {{ constants.noc_gas_thr }}
                                 }">[[item.n_g]] ppm</span></td>
                             <td>
                                 <div class="dropdown">

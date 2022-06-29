@@ -1,0 +1,39 @@
+{% load static %}
+
+    <div class="card col-7">
+        <div class="card-header">
+            <div>
+                <h4 class="card-title">Temperatura e Umidade</h4>
+                <h4 class="card-title">ao longo do tempo</h4>
+                <span class="card-subtitle text-muted"></span>
+            </div>
+            <div class="d-flex d-flex align-items-center mt-1 mt-sm-0">
+                <div class="mr-1">
+                    <h5 class="font-weight-bold mb-25">[[env.curr_temp.t_a]] °C</h5>
+                    <span class="bullet bullet-danger bullet-sm align-middle cursor-pointer"></span>
+                    <span class="align-middle cursor-pointer">Temperatura</span>
+                </div>
+                <div class="mr-1">
+                    <h5 class="font-weight-bold mb-25">[[env.curr_temp.umd]] %</h5>
+                    <span class="bullet bullet-primary bullet-sm align-middle cursor-pointer"></span>
+                    <span class="align-middle cursor-pointer">Umidade</span>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div style="height:450px">
+                <div class="chartjs-size-monitor">
+                    <div class="chartjs-size-monitor-expand">
+                        <div class=""></div>
+                    </div>
+                    <div class="chartjs-size-monitor-shrink">
+                        <div class=""></div>
+                    </div>
+                </div>
+                <canvas class="line-chart temp-umd chartjs chartjs-render-monitor" :id=[[env.id]]
+                        v-binddata-height="450" width="696"
+                        height="450" style="display: block; width: 696px; height: 450px;"></canvas>
+            </div>
+        </div>
+    </div>
+

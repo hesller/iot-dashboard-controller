@@ -1,25 +1,46 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
+from django.views.generic import UpdateView, DeleteView, CreateView
 
 from crm import forms
 from crm import models
+from crm.constants import constants as cnt
 
 
 # Create your views here.
-from crm.repositories.AirConditioningRepository import getAcWithEnvID
 from crm.repositories.environment_equipament_repository import get_all_equipament_environment
 
 
-@login_required
-def dashboard(request):
-    return render(request, 'pages/dashboard.html', context={})
+def get_constants():
+    constants = {
+        'umd_min': cnt.umd_min,
+        'umd_max': cnt.umd_max,
+        'noc_gas_thr': cnt.nocive_gas_threshold,
+        'targ_temp': cnt.target_temperature
+    }
+    return constants
+
+
+class DashboardView(View):
+    """
+    Displays the main panel to the user
+    """
+
+    def get(self,request, *args, **kwargs):
+        """Get environments and add to the request"""
+        envs = models.Environment.objects.all()
+        constants = {
+            'umd_min': cnt.umd_min,
+            'umd_max': cnt.umd_max,
+            'noc_gas_thr': cnt.nocive_gas_threshold,
+            'targ_temp': cnt.target_temperature
+        }
+
+        return render(request, 'pages/dashboard.html', context={'envs': envs, 'constants': constants})
 
 
 class LoginView(View):
@@ -95,7 +116,13 @@ class EnvironmentListView(View):
     html_template = 'pages/environments.html'
 
     def get(self, request):
-        return render(request, self.html_template, context={'page_title': 'Ambientes', })
+        constants = {
+            'umd_min': cnt.umd_min,
+            'umd_max': cnt.umd_max,
+            'noc_gas_thr': cnt.nocive_gas_threshold,
+            'targ_temp': cnt.target_temperature
+        }
+        return render(request, self.html_template, context={'page_title': 'Ambientes', 'constants': constants})
 
 
 class EnvironmentCreateView(View):
@@ -121,6 +148,10 @@ class EnvironmentCreateView(View):
             environment = form.save()
             messages.add_message(request, messages.SUCCESS, f'Ambiente {environment.name} criado com sucesso!')
             return redirect('list-environments')
+
+        else:
+            messages.add_message
+            return redirect('create-new-environment')
 
 
 class EnvironmentDetails(UpdateView):

@@ -1,0 +1,24 @@
+{% load static %}
+
+<div class="card col-12">
+    <div class="card-header">
+        <div>
+            <h4 class="card-title">Resumo</h4>
+            <span class="card-subtitle text-muted"></span>
+        </div>
+    </div>
+    <div class="card-body">
+        <ul >
+            <li v-if="env['recommendations']">
+                <h5>rec exists</h5>
+            </li>
+            <li v-else>
+                <h5 >rec doesnt exists</h5>
+            </li>
+
+        </ul>
+
+    </div>
+</div>
+
+
